@@ -42,11 +42,13 @@ const Product_detail = () => {
                         Mô tả ngắn: Trước khi mua bất kỳ chiếc điện thoại nào, người dùng cũng sẽ quan tâm đến thiết kế sản phẩm trước. Với phiên bản A73, Samsung đã tạo nên một chiếc smartphone với vẻ ngoài mang đến cảm giác sang trọng và tinh tế.
                     </div>
                     <div className="mt-auto flex">
-                        <button className="bg-[#FF3945] border-1 text-[#FFFFFF] w-[240px] h-12 rounded-md hover:bg-white hover:border-[#FF3945] hover:text-[#FF3945] ease-linear transition-all"><a href="">Mua ngay</a></button>
+                        <button className="bg-[#FF3945] border-1 text-[#FFFFFF] w-[240px] h-12 rounded-md hover:bg-white hover:border-[#FF3945] hover:text-[#FF3945] ease-linear transition-all"><a href="/cart">Mua ngay</a></button>
                         <div className="w-12 h-12 border-red-600 border-2 ml-5 rounded-md flex justify-center items-center cursor-pointer hover:bg-white group">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-6 hover:scale-75 ease-in-out transition-all hover:scale-75" viewBox="0 0 512 512"><circle cx="176" cy="416" r="16" fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /><circle cx="400" cy="416" r="16" fill="red" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /><path fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M48 80h64l48 272h256" /><path d="M160 288h249.44a8 8 0 007.85-6.43l28.8-144a8 8 0 00-7.85-9.57H128" fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /></svg>
+                            <a href="/cart">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-6 ease-in-out transition-all hover:scale-75" viewBox="0 0 512 512"><circle cx="176" cy="416" r="16" fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /><circle cx="400" cy="416" r="16" fill="red" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /><path fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M48 80h64l48 272h256" /><path d="M160 288h249.44a8 8 0 007.85-6.43l28.8-144a8 8 0 00-7.85-9.57H128" fill="none" stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" /></svg>
+                            </a>
                         </div>
-                        <span className="w-16 text-sm ml-5 cursor-pointer">Thêm vào giỏ hàng</span>
+                        <span className="w-16 text-sm ml-5 cursor-pointer"><a href="/cart">Thêm vào giỏ hàng</a></span>
                     </div>
                 </div>
             </div>
