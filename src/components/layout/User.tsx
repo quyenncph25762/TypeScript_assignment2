@@ -1,5 +1,21 @@
-import { Outlet } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { formSignup } from '../../models'
 const User = () => {
+    const [user, setUser] = useState<formSignup>({} as formSignup)
+    const logout = () => {
+        // localStorage.clear()
+    }
+    useEffect(() => {
+        const getData = localStorage.getItem("user")
+        console.log(getData);
+        if (getData) {
+            const dataObject = JSON.parse(getData)
+            setUser(dataObject)
+        }
+        logout();
+    }, [])
     return (
         <div>
             <header className='bg-[#D70018] h-[64px]'>
@@ -9,6 +25,8 @@ const User = () => {
                         <input type="text" className='rounded-md py-1 px-4 w-full focus:outline-none' />
                         <svg xmlns="http://www.w3.org/2000/svg" className="ionicon focus:hidden absolute w-5 h-full left-0 top-[50%] translate-y-[-50%] ml-4 group-focus-within:opacity-0 transition-opacity" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32" /><path fill="none" stroke="currentColor" strokeLinecap="round" strokeMiterlimit="10" strokeWidth="32" d="M338.29 338.29L448 448" /></svg>
                     </div>
+
+                    {user.userName ? <div className='text-[#ffffff] ml-[100px]'>Chào bạn ! {user.userName} <button className='ml-[20px] bg-[#000] py-2 px-4' onClick={() => logout}><a href='/'>Đăng xuất</a></button></div> : <Link to="/dang-nhap" className='ml-[100px] bg-[#fff] py-2 px-4'>Đăng nhập</Link>}
                 </div>
             </header>
             <Outlet />
