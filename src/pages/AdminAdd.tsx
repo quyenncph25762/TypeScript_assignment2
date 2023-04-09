@@ -8,8 +8,7 @@ import { getCategory } from "../api/Category"
 import axios from "axios"
 const AdminAdd = () => {
     const [category, setCategory] = useState<ICategory[]>([])
-    console.log();
-
+    console.log(category);
     const navigate = useNavigate()
     const {
         register,
@@ -20,7 +19,7 @@ const AdminAdd = () => {
     })
     const onSubmitForm = async (product: formAdd) => {
         console.log(product);
-        const { data } = await addProduct(product);
+        await addProduct(product);
         // console.log(data);
         navigate("/admin")
 
@@ -112,10 +111,11 @@ const AdminAdd = () => {
                                     </div>
                                 </div>
                                 <select className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
-                                    {...register("categoryId")} defaultValue={category.length > 0 ? category[0]._id : ''}
+                                    {...register("categoryId")}
+                                    defaultValue={category?.length > 0 ? category[0]?._id : ""}
                                 >
                                     {category && category.map((item, index) =>
-                                        <option value={item._id} key={index} >
+                                        <option value={item._id} key={index}>
                                             {item.name}
                                         </option>
                                     )}

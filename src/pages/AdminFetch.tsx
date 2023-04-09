@@ -7,7 +7,9 @@ const AdminFetch = () => {
     const [products, setProducts] = useState<IProduct[]>([])
     const [category, setCategory] = useState<ICategory[]>([])
     const navigate = useNavigate();
-
+    const navigateCate = () => {
+        navigate("/admin/category")
+    }
     const fetchProductAdmin = async () => {
         const { data } = await getAll();
         setProducts(data)
@@ -75,8 +77,8 @@ const AdminFetch = () => {
                         >
                             Giá khuyến mãi
                         </th>
-                        <th
-                            className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+                        <th onClick={() => navigateCate()}
+                            className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900 hover:text-[#ffa400] cursor-pointer"
                         >
                             Thể loại
                         </th>

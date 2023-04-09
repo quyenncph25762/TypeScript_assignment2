@@ -10,6 +10,9 @@ import AdminFetch from './pages/AdminFetch'
 import AdminAdd from './pages/AdminAdd'
 import AdminUpdate from './pages/AdminUpdate'
 import Cart from './pages/Cart'
+import CategoryFetch from './pages/CategoryFetch'
+import CategoryAdd from './pages/CategoryAdd'
+import CategoryUpdate from './pages/CategoryUpdate'
 function App() {
   return <BrowserRouter>
     <Routes>
@@ -26,7 +29,11 @@ function App() {
         <Route index element={<AdminFetch />}></Route>
         <Route path='them-san-pham' element={<AdminAdd />}></Route>
         <Route path='products/:id' element={<AdminUpdate />}></Route>
+        <Route path='category' element={<CategoryFetch />}></Route>
+        <Route path='category/them-the-loai' element={<CategoryAdd />}></Route>
+        <Route path='category/:id' element={<CategoryUpdate />}></Route>
       </Route>
+
     </Routes>
   </BrowserRouter >
 }

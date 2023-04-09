@@ -5,6 +5,7 @@ import { getAll, getOne, update } from "../api/Product"
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup"
 import { getCategory } from "../api/Category"
+import { date } from "yup"
 // import * as Yup from 'yup'
 const AdminUpdate = () => {
     const [product, setProduct] = useState<IProduct>({} as IProduct)
@@ -108,7 +109,6 @@ const AdminUpdate = () => {
                                             placeholder="Giá gốc"
                                             type="number"
                                             {...register("original_price", { required: true })}
-                                            min={0}
                                         />
                                         <p className="text-red-600">
                                             {errors.original_price && errors.original_price.message}
@@ -122,7 +122,6 @@ const AdminUpdate = () => {
                                             placeholder="Giá khuyến mãi"
                                             {...register("price", { required: true })}
                                             type="number"
-                                            min={0}
                                         />
                                         <p className="text-red-600">
                                             {errors.price && errors.price.message}
@@ -131,10 +130,10 @@ const AdminUpdate = () => {
                                 </div>
                                 <select className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
                                     {...register("categoryId")}
-                                    defaultValue={product?.categoryId?._id}
+                                    value={product?.categoryId?._id}
                                 >
                                     {category && category.map((cate, index) =>
-                                        <option key={cate._id} value={cate._id}>
+                                        <option key={cate._id} value={cate?._id}>
                                             {cate.name}
                                         </option>
                                     )}
