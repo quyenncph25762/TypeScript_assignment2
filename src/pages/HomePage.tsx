@@ -17,7 +17,7 @@ const HomePage = () => {
         <Banner />
         <h1 className="uppercase my-10">Điện thoại nổi bật nhất</h1>
         <div className="grid grid-cols-5 gap-4 mt-4">
-            {products.map(product => <Product data={product} key={product.id} />)}
+            {products.map((product, index) => <Product data={product} key={index} />)}
         </div>
     </div>
 }

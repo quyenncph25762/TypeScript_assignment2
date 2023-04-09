@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { formUpdate, updateSchema } from "../models"
-import { getOne, update } from "../api/Product"
+import { ICategory, IProduct, addProductSchema, formAdd, formUpdate, updateSchema } from "../models"
+import { getAll, getOne, update } from "../api/Product"
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup"
+import { getCategory } from "../api/Category"
 // import * as Yup from 'yup'
 const AdminUpdate = () => {
+    const [product, setProduct] = useState<IProduct>({} as IProduct)
+    const [category, setCategory] = useState<ICategory[]>([])
     const { id } = useParams()
     const navigate = useNavigate();
     const {
@@ -23,11 +26,10 @@ const AdminUpdate = () => {
 
     const onSubmitForm = async (data: formUpdate) => {
         try {
+            // const setData = { ...data, categoryId: product.categoryId?._id }
             if (id) {
-                const response = await update(id, data)
+                await update(id, data)
                 navigate("/admin")
-                console.log(response);
-
             }
         } catch (error) {
             console.log(error);
@@ -36,13 +38,19 @@ const AdminUpdate = () => {
 
     const fetchOneAdmin = async (id: string) => {
         if (id) {
-            const { data } = await getOne(id)
-            return data
+            const { data: { product } } = await getOne(id)
+            // setProduct({ ...product, categoryId: product.categoryId?._id })
+            setProduct(product)
+            return product
         }
 
     }
-
+    const fetchAllCategory = async () => {
+        const { data } = await getCategory()
+        setCategory(data)
+    }
     useEffect(() => {
+        fetchAllCategory()
         if (id) {
             fetchOneAdmin(id)
         }
@@ -54,7 +62,7 @@ const AdminUpdate = () => {
                 className="group flex flex-col justify-between rounded-lg bg-transparent p-4 shadow-md transition-shadow hover:shadow-lg sm:p-6 lg:p-8 w-[400px] mt-10 min-h-[350px]"
             >
                 <div className="flex flex-col justify-center items-center">
-                    <img src="" className="w-[250px] object-cover" alt="" />
+                    <img src={product.images} className="w-[250px] object-cover" alt="" />
                     {/* <input type="file" {...register("images", { required: true })} /> */}
                     <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-14 text-[#00B0D7] mt-8 cursor-pointer" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32" /><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M256 176v160M336 256H176" /></svg>
                     <h1 className="text-2xl text-[#5F5E61] font-semibold text-center mt-3">Sửa ảnh</h1>
@@ -121,20 +129,30 @@ const AdminUpdate = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <select name="" id="" className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent">
-                                    <option value="">
-                                        latop
-                                    </option>
+                                <select className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
+                                    {...register("categoryId")}
+                                    defaultValue={product?.categoryId?._id}
+                                >
+                                    {category && category.map((cate, index) =>
+                                        <option key={cate._id} value={cate._id}>
+                                            {cate.name}
+                                        </option>
+                                    )}
                                 </select>
+                                <p className="text-red-600">
+                                    {errors.categoryId && errors.categoryId.message}
+                                </p>
                                 <div>
-                                    <label className="sr-only">Điểm nổi bật</label>
+                                    <label className="sr-only">Đặc điểm nổi bật</label>
 
                                     <textarea
                                         className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
-                                        placeholder="Điểm nổi bật"
+                                        placeholder="Thông số kĩ thuật"
                                         cols={30}
                                         rows={4}
+                                        {...register("specifications")}
                                     ></textarea>
+                                    {errors.specifications && errors.specifications.message}
                                 </div>
                                 <div>
                                     <label className="sr-only">Mô tả</label>
@@ -144,7 +162,9 @@ const AdminUpdate = () => {
                                         placeholder="Mô tả"
                                         cols={30}
                                         rows={4}
+                                        {...register("description")}
                                     ></textarea>
+                                    {errors.description && errors.description.message}
                                 </div>
 
                                 <div className="mt-4">

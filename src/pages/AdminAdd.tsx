@@ -1,21 +1,65 @@
+import { useEffect, useState } from "react"
+import { ICategory, IProduct, addProductSchema, formAdd, updateSchema } from "../models"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { addProduct } from "../api/Product"
+import { useNavigate } from "react-router-dom"
+import { getCategory } from "../api/Category"
+import axios from "axios"
 const AdminAdd = () => {
-    return <div className="grow p-5 bg-[#F1F3F4] flex">
+    const [category, setCategory] = useState<ICategory[]>([])
+    console.log();
+
+    const navigate = useNavigate()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors }
+    } = useForm<formAdd>({
+        resolver: yupResolver(addProductSchema)
+    })
+    const onSubmitForm = async (product: formAdd) => {
+        console.log(product);
+        const { data } = await addProduct(product);
+        // console.log(data);
+        navigate("/admin")
+
+    }
+    // category
+    const fetchCategory = async () => {
+        const { data } = await getCategory()
+        setCategory(data)
+    }
+    useEffect(() => {
+        fetchCategory()
+    }, [])
+    return <form onSubmit={handleSubmit(onSubmitForm)} className="grow p-5 bg-[#F1F3F4] flex">
         <div className="w-[40%]">
-            <h1 className="text-2xl text-[#5F5E61] font-bold">Thêm mới sản phẩm</h1>
+            <h1 className="text-2xl text-[#5F5E61] font-bold">Cập nhật sản phẩm</h1>
             <div
-                className="group flex flex-col justify-between rounded-lg bg-transparent p-4 shadow-md transition-shadow hover:shadow-lg sm:p-6 lg:p-8 w-[400px] mt-10 h-[350px]"
+                className="group flex flex-col justify-between rounded-lg bg-transparent p-4 shadow-md transition-shadow hover:shadow-lg sm:p-6 lg:p-8 w-[400px] mt-10 min-h-[350px]"
             >
                 <div className="flex flex-col justify-center items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-14 text-[#00B0D7] mt-8 cursor-pointer" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" strokeMiterlimit="10" stroke-width="32" /><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" stroke-width="32" d="M256 176v160M336 256H176" /></svg>
-                    <h1 className="text-2xl text-[#5F5E61] font-semibold text-center mt-3">Thêm ảnh</h1>
+                    <img src="" className="w-[250px] object-cover" alt="" />
+                    <input type="file" {...register("images")} />
+                    <p className="text-red-600">
+                        {errors.images && errors.images.message}
+                    </p>
+                    {/* <input type="file" {...register("images", { required: true })} /> */}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-14 text-[#00B0D7] mt-8 cursor-pointer" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32" /><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M256 176v160M336 256H176" /></svg>
+                    <h1 className="text-2xl text-[#5F5E61] font-semibold text-center mt-3">Sửa ảnh</h1>
                 </div>
                 <div className="mt-4 border-t-2 border-gray-300 pt-4">
                     <textarea
-                        className="w-full rounded-lg  font-medium text-gray-500 border-1 p-3 text-sm bg-transparent"
+                        className="w-full rounded-lg text-sm font-medium text-gray-500 border-1 p-3 bg-transparent"
                         placeholder="Mô tả ngắn:"
                         cols={30}
                         rows={4}
+                        {...register("description_small", { required: true })}
                     ></textarea>
+                    <p className="text-red-600">
+                        {errors.description_small && errors.description_small.message}
+                    </p>
                 </div>
             </div>
         </div>
@@ -25,52 +69,69 @@ const AdminAdd = () => {
                     <div className="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
                         <div className="rounded-lg bg-transparent p-8 shadow-md lg:col-span-3 lg:p-12 w-[650px]">
                             <h1 className="text-2xl text-[#5F5E61] font-semibold mb-8">Thông tin sản phẩm</h1>
-                            <form action="" className="space-y-4">
+                            <div className="space-y-4">
                                 <div>
-                                    <label className="sr-only">Tên sản phẩm</label>
+                                    <label className="text-[12px]">Tên sản phẩm</label>
                                     <input
                                         className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
                                         placeholder="Tên sản phẩm"
-                                        type="text"
-                                        id="name"
+                                        {...register("name", { required: true })}
                                     />
+                                    <p className="text-red-600">
+                                        {errors.name && errors.name.message}
+                                    </p>
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                     <div>
-                                        <label className="sr-only">Giá gốc</label>
+                                        <label className="text-[12px]">Giá gốc</label>
                                         <input
                                             className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
                                             placeholder="Giá gốc"
                                             type="number"
+                                            {...register("original_price", { required: true })}
                                             min={0}
                                         />
+                                        <p className="text-red-600">
+                                            {errors.original_price && errors.original_price.message}
+                                        </p>
                                     </div>
 
                                     <div>
-                                        <label className="sr-only">Giá khuyến mãi</label>
+                                        <label className="text-[12px]">Giá khuyễn mãi</label>
                                         <input
                                             className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
                                             placeholder="Giá khuyến mãi"
+                                            {...register("price", { required: true })}
                                             type="number"
                                             min={0}
                                         />
+                                        <p className="text-red-600">
+                                            {errors.price && errors.price.message}
+                                        </p>
                                     </div>
                                 </div>
-                                <select name="" id="" className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent">
-                                    <option value="">
-                                        latop
-                                    </option>
+                                <select className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
+                                    {...register("categoryId")} defaultValue={category.length > 0 ? category[0]._id : ''}
+                                >
+                                    {category && category.map((item, index) =>
+                                        <option value={item._id} key={index} >
+                                            {item.name}
+                                        </option>
+                                    )}
                                 </select>
+                                {errors.categoryId && errors.categoryId.message}
                                 <div>
-                                    <label className="sr-only">Điểm nổi bật</label>
+                                    <label className="sr-only">Đặc điểm nổi bật</label>
 
                                     <textarea
                                         className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
-                                        placeholder="Điểm nổi bật"
+                                        placeholder="Thông số kĩ thuật"
                                         cols={30}
                                         rows={4}
+                                        {...register("specifications")}
                                     ></textarea>
+                                    {errors.specifications && errors.specifications.message}
                                 </div>
                                 <div>
                                     <label className="sr-only">Mô tả</label>
@@ -80,25 +141,25 @@ const AdminAdd = () => {
                                         placeholder="Mô tả"
                                         cols={30}
                                         rows={4}
+                                        {...register("description")}
                                     ></textarea>
+                                    {errors.description && errors.description.message}
                                 </div>
 
                                 <div className="mt-4">
                                     <button
-                                        type="submit"
                                         className="inline-block w-full rounded-lg bg-[#00B0D7] px-5 py-3 font-medium text-white sm:w-auto"
                                     >
-                                        Thêm mới
+                                        Thêm sản phẩm
                                     </button>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
-
-        </div>
-    </div>
+        </div >
+    </form >
 }
 
 export default AdminAdd

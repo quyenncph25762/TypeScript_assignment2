@@ -1,10 +1,18 @@
-import React from 'react'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Cart = () => {
+    const navigate = useNavigate();
+    const routerBack = () => {
+        navigate(-1)
+    }
+    // useEffect(() => {
+    //     routerBack()
+    // }, [navigate])
     return <div className='flex justify-center'>
         <div className="w-[600px] p-2">
             <div className="flex">
-                <a href="/chi-tiet-san-pham" className='text-red-600 text-sm flex-shrink-0'>Trở về</a>
+                <button onClick={() => routerBack()} className='text-red-600 text-sm flex-shrink-0'>Trở về</button>
                 <div className="text-center text-red-600 text-sm flex-1 font-bold">Giỏ hàng</div>
             </div>
             <div className="w-full flex shadow-md rounded-md py-3 px-2 mt-4 relative">

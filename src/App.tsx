@@ -25,7 +25,7 @@ function App() {
       <Route path='/admin' element={<Admin />}>
         <Route index element={<AdminFetch />}></Route>
         <Route path='them-san-pham' element={<AdminAdd />}></Route>
-        <Route path='product/:id' element={<AdminUpdate />}></Route>
+        <Route path='products/:id' element={<AdminUpdate />}></Route>
       </Route>
     </Routes>
   </BrowserRouter >

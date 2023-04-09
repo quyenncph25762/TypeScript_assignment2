@@ -5,10 +5,10 @@ type Props = {
 }
 const Product = ({ data }: Props) => {
     return <div className="mb-14">
-        <Link to={`/product/${data.id}`} className="block">
+        <Link to={`/product/${data._id}`} className="block">
             <img
                 alt="Art"
-                src={data.images?.[0].base_url}
+                src={data.images}
                 className="w-full object-cover"
             />
             <h3 className="mt-4 text-sm text-gray-900 font-semibold">

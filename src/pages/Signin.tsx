@@ -9,10 +9,10 @@ const Signin = () => {
     const navigate = useNavigate()
     const onHandleSubmit = async (data: formSigin) => {
         try {
-            const { data: { accessToken, user } } = await signin(data)
+            const { data: { accessToken, userCheck } } = await signin(data)
             setUser({
                 accessToken,
-                ...user
+                ...userCheck
             })
             navigate("/admin")
         } catch (error) {

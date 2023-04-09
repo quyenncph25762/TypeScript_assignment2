@@ -1,29 +1,47 @@
 import { useEffect, useState } from "react"
-import { IProduct } from "../models"
-import { getAll } from "../api/Product"
-import { Link } from "react-router-dom"
+import { ICategory, IProduct, IUser } from "../models"
+import { deleteProduct, getAll } from "../api/Product"
+import { Link, useNavigate } from "react-router-dom"
+import { getCategory, getOneCategory } from "../api/Category"
 const AdminFetch = () => {
     const [products, setProducts] = useState<IProduct[]>([])
+    const [category, setCategory] = useState<ICategory[]>([])
+    const navigate = useNavigate();
+
     const fetchProductAdmin = async () => {
         const { data } = await getAll();
         setProducts(data)
     }
-
+    const fetchCategory = async () => {
+        const { data } = await getCategory();
+        setCategory(data)
+    }
+    const removeProduct = async (id: string) => {
+        const isConfirm = confirm('Are you sure you want to remove');
+        if (isConfirm) {
+            await deleteProduct(id)
+            alert('Xoa thanh cong');
+            // navigate(-1)
+        }
+    }
     useEffect(() => {
-
         fetchProductAdmin()
+        fetchCategory()
     }, [])
-    return <div className="h-full grow p-5 bg-[#F1F3F4]">
+    return <div className="h-full grow pl-5 py-5 bg-[#F1F3F4]">
         <div className="flex justify-between w-full">
             <h1 className="text-2xl text-[#5F5E61] font-bold">Điện thoại</h1>
-            <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-14 text-[#00B0D7] mt-8 mr-8 cursor-pointer" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32" /><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M256 176v160M336 256H176" /></svg>
+            <Link to="/admin/them-san-pham"><svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-14 text-[#00B0D7] mt-8 mr-8 cursor-pointer" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32" /><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M256 176v160M336 256H176" /></svg></Link>
         </div>
         <div className="flex">
             <h3 className="text-lg text-[#5F5E61] font-semibold">Bộ lọc</h3>
             <div className="flex flex-col ml-10">
                 <p className="text-sm mb-2">Danh mục sản phẩm</p>
-                <select name="" id="" className="w-[352px] border-1 border-[#ccc] p-2">
-                    <option value="" className="p-2">Latop</option>
+                <select className="w-[352px] border-1 border-[#ccc] p-2" defaultValue="">
+                    <option value="">All</option>
+                    {category && category.map((cate, index) =>
+                        <option key={index} value={cate._id} className="p-2">{cate.name}</option>
+                    )}
                 </select>
             </div>
         </div>
@@ -43,6 +61,7 @@ const AdminFetch = () => {
                         </th>
                         <th
                             className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+
                         >
                             Ảnh
                         </th>
@@ -58,6 +77,11 @@ const AdminFetch = () => {
                         </th>
                         <th
                             className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+                        >
+                            Thể loại
+                        </th>
+                        <th
+                            className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
                             colSpan={2}>
                             Thao tác
                         </th>
@@ -67,16 +91,21 @@ const AdminFetch = () => {
                     {products.map((product, index) =>
                         <tr key={index}>
                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                1
+                                {index + 1}
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.name}</td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                                <img className="w-[75px] h-[75px]" src={product.images?.[0].base_url} alt="" />
+                                <img className="w-[70px]" src={product.images} alt="" />
                             </td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.price}</td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.original_price}</td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 w-[65px]"><button className="py-2 px-3 bg-red-400">xóa</button></td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 w-[65px]"><button className="py-2 px-3 bg-yellow-300"><Link to={`/admin/product/${product.id}`}>Sửa</Link></button></td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                {category.map((value) => { return value._id == product.categoryId?._id ? value.name : "" }
+                                )}
+                            </td>
+
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 w-[65px]"><button onClick={() => removeProduct(product._id)} className="py-2 px-3 bg-red-400">xóa</button></td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 w-[65px]"><button className="py-2 px-3 bg-yellow-300"><Link to={`/admin/products/${product._id}`}>Sửa</Link></button></td>
                         </tr>
                     )}
                 </tbody>
