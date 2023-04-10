@@ -47,7 +47,7 @@ const AdminFetch = () => {
                 </select>
             </div>
         </div>
-        <div className="overflow-x-auto mt-4">
+        <div className="overflow-x-auto mt-4 w-[1200px]">
             <table className="min-w-full divide-y-2 divide-gray-300 text-sm">
                 <thead>
                     <tr>
@@ -95,18 +95,18 @@ const AdminFetch = () => {
                             <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                                 {index + 1}
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.name}</td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-[12px] overflow-hidden text-ellipsis">{product.name}</td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                 <img className="w-[70px]" src={product.images} alt="" />
                             </td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.price}</td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.original_price}</td>
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-[12px]">{product.price}</td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-[12px]">{product.original_price}</td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 text-[12px]">
                                 {category.map((value) => { return value._id == product.categoryId?._id ? value.name : "" }
                                 )}
                             </td>
 
-                            <td className="whitespace-nowrap px-4 py-2 text-gray-700 w-[65px]"><button onClick={() => removeProduct(product._id)} className="py-2 px-3 bg-red-400">xóa</button></td>
+                            <td className="whitespace-nowrap px-4 py-2 text-white w-[65px]"><button onClick={() => removeProduct(product._id)} className="py-2 px-3 bg-red-400">xóa</button></td>
                             <td className="whitespace-nowrap px-4 py-2 text-gray-700 w-[65px]"><button className="py-2 px-3 bg-yellow-300"><Link to={`/admin/products/${product._id}`}>Sửa</Link></button></td>
                         </tr>
                     )}

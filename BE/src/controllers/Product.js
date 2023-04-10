@@ -66,6 +66,11 @@ export const update = async (req, res) => {
                 message: "Khong co san pham nao"
             })
         }
+        await Category.findByIdAndUpdate(product.categoryId, {
+            $addToSet: {
+                products: product._id
+            }
+        })
         return res.status(201).json({
             message: "update success product",
             product
@@ -78,7 +83,12 @@ export const update = async (req, res) => {
 }
 export const remove = async (req, res) => {
     try {
-        await Product.findByIdAndDelete(req.params.id);
+        const product = await Product.findByIdAndDelete(req.params.id);
+        await Category.findByIdAndDelete(product.categoryId, {
+            $addToSet: {
+                products: product._id
+            }
+        })
         return res.status(201).json({
             message: "remove success product",
         })

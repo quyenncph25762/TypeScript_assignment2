@@ -7,6 +7,9 @@ import { Link, useNavigate } from 'react-router-dom';
 const Signin = () => {
     const [user, setUser] = useLocalStorage("user", null)
     const navigate = useNavigate()
+    const routeBefote = () => {
+        navigate(-1)
+    }
     const onHandleSubmit = async (data: formSigin) => {
         try {
             const { data: { accessToken, userCheck } } = await signin(data)
@@ -29,7 +32,7 @@ const Signin = () => {
     return <div className="flex justify-center items-center h-screen bg-[#E5E5E5]">
         <div className="w-[60%] h-[600px] bg-[#F8F8F8] flex">
             <form onSubmit={handleSubmit(onHandleSubmit)} className='w-[60%] flex flex-col justify-center items-center relative'>
-                <a href="/chi-tiet-san-pham" className="absolute left-0 top-0 pt-2 pl-2">Quay lại</a>
+                <button onClick={() => routeBefote()} className="absolute left-0 top-0 pt-2 pl-2">Quay lại</button>
                 <div className="">
                     <div className="text-sm">Email</div>
                     <input type="text" {...register("email", { required: true })} className="border-1 focus:outline-red-300 ease-linear transition-all w-[300px] py-2 px-2" />
