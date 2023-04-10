@@ -24,6 +24,7 @@ const checkPerMission = async (req, res, next) => {
             }
             const userId = await User.findById(payload.id)
             if (userId.role !== "admin") {
+                c
                 return res.status(403).json({
                     message: "Ban khong co quyen"
                 })

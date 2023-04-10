@@ -14,12 +14,13 @@ export interface IProduct {
         name: string,
         slug: string
     },
-    specifications: ISpecification[]
+    specifications: string
 }
 
 export interface ICategory {
     _id: string
     name: string
+    products: IProduct[]
 }
 
 export interface IUser {
@@ -63,6 +64,7 @@ export const addProductSchema = Yup.object({
     price: Yup.number().min(0).required("Trường dữ liệu bắt buộc"),
     images: Yup.string().required("Trường dữ liệu bắt buộc"),
     original_price: Yup.number().min(0).required("Trường dữ liệu bắt buộc"),
+    products: Yup.array(),
     categoryId: Yup.string().required("Trường dữ liệu bắt buộc"),
     description: Yup.string(),
     description_small: Yup.string().min(10, "Mô tả ngắn phải có 10 kí tự").max(200).required(),
