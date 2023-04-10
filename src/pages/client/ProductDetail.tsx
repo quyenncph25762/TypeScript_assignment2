@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { IProduct, formAdd, formSignup } from "../models"
-import { Link, useParams } from "react-router-dom"
-import { getOne } from "../api/Product"
+import { IProduct, formAdd, formSignup } from "../../models"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { getOne } from "../../api/Product"
 
 const ProductDetail = () => {
     const [product, setProduct] = useState<formAdd>({} as formAdd)
@@ -20,9 +20,9 @@ const ProductDetail = () => {
         {/* router */}
         <div className="border-b-2">
             <ul className="list-none h-8 flex items-center justify-start mx-auto max-w-[1024px] border-[#ccc] w-full text-sm cursor-pointer">
+                {/* <li className="mr-6"><a href="">Điện thoại</a></li>
                 <li className="mr-6"><a href="">Điện thoại</a></li>
-                <li className="mr-6"><a href="">Điện thoại</a></li>
-                <li className="mr-6"><a href="">Điện thoại</a></li>
+                <li className="mr-6"><a href="">Điện thoại</a></li> */}
             </ul>
         </div>
         {/* product_Name */}
@@ -74,12 +74,12 @@ const ProductDetail = () => {
             </div>
             <div className="mt-3 text-sm"><span>{product.description}</span></div>
             {/* product-rate */}
-            <h1 className="text-xl text-[#0A263C] font-semibold mt-5">Đánh giá Samsung A73 - Hiệu năng mượt mà, chụp ảnh chuyên nghiệp</h1>
+            {/* <h1 className="text-xl text-[#0A263C] font-semibold mt-5">Đánh giá Samsung A73 - Hiệu năng mượt mà, chụp ảnh chuyên nghiệp</h1>
             <span className="mt-3 text-sm">Điện thoại cao cấp nhất dòng Galaxy A series sở hữu nhiều nâng cấp đáng giá so với thế hệ trước, từ ngoại hình cho đến hiệu năng, đặc biệt là hệ thống camera. Sau đây là những đánh giá chi tiết về chiếc</span>
             <h1 className="text-lg text-[#0A263C] font-semibold mt-5">Đánh giá Samsung A73 - Hiệu năng mượt mà, chụp ảnh chuyên nghiệp</h1>
             <span className="mt-3 text-sm">Trước khi mua bất kỳ chiếc điện thoại nào, người dùng cũng sẽ quan tâm đến thiết kế sản phẩm trước. Với phiên bản A73, Samsung đã tạo nên một chiếc smartphone với vẻ ngoài mang đến cảm giác sang trọng và tinh tế.</span>
             <span className="mt-3 text-sm">Samsung Galaxy A73 được thiết kế gọn nhẹ với tiêu chí đáp ứng khả năng mang theo để tiện đi lại cho người dùng. Giờ đây, bạn có thể mang theo chiếc smartphone bên cạnh đến bất cứ đâu, bất cứ lúc nào.</span>
-            <span className="mt-3 text-sm">Kích thước và trọng lượng của chiếc điện thoại rất vừa phải và dĩ nhiên sẽ không chiếm quá nhiều diện tích trong túi xách và có thể di chuyển dễ dàng.</span>
+            <span className="mt-3 text-sm">Kích thước và trọng lượng của chiếc điện thoại rất vừa phải và dĩ nhiên sẽ không chiếm quá nhiều diện tích trong túi xách và có thể di chuyển dễ dàng.</span> */}
             <button className="ml-[50%] translate-x-[-50%] border-[#0A263C] border-1 text-[#0A263C] w-[335px] py-1 block mt-5 mb-[100px] rounded-lg hover:bg-[#0A263C] hover:text-white ease-linear transition-all">Xem thêm</button>
         </div>
     </>

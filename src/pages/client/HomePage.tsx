@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import Banner from "../components/Banner"
-import Product from "../components/Product"
-import { IProduct } from "../models"
-import { getAll } from "../api/Product"
+import Banner from "../../components/Banner"
+import Product from "../../components/Product"
+import { IProduct } from "../../models"
+import { getAll } from "../../api/Product"
 
 const HomePage = () => {
     const [products, setProducts] = useState<IProduct[]>([])

@@ -1,24 +1,45 @@
 import { useEffect, useState } from "react"
-import { ICategory, IProduct, IUser, addCategorySchema, addProductSchema, formAdd, updateSchema } from "../models"
+import { ICategory, IProduct, IUser, addCategorySchema, addProductSchema, formAdd, updateSchema } from "../../../models"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { addProduct } from "../api/Product"
-import { useNavigate } from "react-router-dom"
-import { addCategory, getCategory } from "../api/Category"
-import axios from "axios"
-const CategoryAdd = () => {
+import { addProduct } from "../../../api/Product"
+import { useNavigate, useParams } from "react-router-dom"
+import { addCategory, getCategory, getOneCategory, updateCategory } from "../../../api/Category"
+const CategoryUpdate = ({ }) => {
+    const [category, setCategory] = useState<ICategory>({} as ICategory)
+    const { id } = useParams()
     const navigate = useNavigate()
     const {
         register,
         handleSubmit,
         formState: { errors }
     } = useForm<ICategory>({
-        resolver: yupResolver(addCategorySchema)
+        resolver: yupResolver(addCategorySchema),
+        defaultValues: async () => {
+            if (id) {
+                return await fetchOneCategory(id)
+            }
+        }
     })
     const onSubmitForm = async (category: ICategory) => {
-        await addCategory(category);
+
+        try {
+            if (id) {
+                await updateCategory(id, category)
+                navigate("/admin/category")
+            }
+        } catch (error) {
+            console.log(error);
+        }
         navigate("/admin/category")
 
+    }
+    const fetchOneCategory = async (id: string) => {
+        if (id) {
+            const { data: { category } } = await getOneCategory(id)
+            setCategory(category)
+            return category
+        }
     }
     useEffect(() => {
     }, [])
@@ -48,7 +69,7 @@ const CategoryAdd = () => {
                                     <button
                                         className="inline-block w-full rounded-lg bg-yellow-600 px-5 py-3 font-medium text-white sm:w-auto"
                                     >
-                                        Thêm thể loại
+                                        Sửa thể loại
                                     </button>
                                 </div>
                             </div>
@@ -60,4 +81,4 @@ const CategoryAdd = () => {
     </form >
 }
 
-export default CategoryAdd
+export default CategoryUpdate

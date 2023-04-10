@@ -1,60 +1,36 @@
 import { useEffect, useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import { ICategory, IProduct, addProductSchema, formAdd, formUpdate, updateSchema } from "../models"
-import { getAll, getOne, update } from "../api/Product"
-import { useForm } from 'react-hook-form'
+import { ICategory, IProduct, addProductSchema, formAdd, updateSchema } from "../../../models"
+import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import { getCategory } from "../api/Category"
-import { date } from "yup"
-// import * as Yup from 'yup'
-const AdminUpdate = () => {
-    const [product, setProduct] = useState<IProduct>({} as IProduct)
+import { addProduct } from "../../../api/Product"
+import { useNavigate } from "react-router-dom"
+import { getCategory } from "../../../api/Category"
+import axios from "axios"
+const AdminAdd = () => {
     const [category, setCategory] = useState<ICategory[]>([])
-    const { id } = useParams()
-    const navigate = useNavigate();
+    console.log(category);
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
-        formState: { errors },
-    } = useForm<formUpdate>({
-        resolver: yupResolver(updateSchema),
-        defaultValues: async () => {
-            if (id) {
-                return await fetchOneAdmin(id)
-            }
-        }
+        formState: { errors }
+    } = useForm<formAdd>({
+        resolver: yupResolver(addProductSchema)
     })
-
-    const onSubmitForm = async (data: formUpdate) => {
-        try {
-            // const setData = { ...data, categoryId: product.categoryId?._id }
-            if (id) {
-                await update(id, data)
-                navigate("/admin")
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const fetchOneAdmin = async (id: string) => {
-        if (id) {
-            const { data: { product } } = await getOne(id)
-            // setProduct({ ...product, categoryId: product.categoryId?._id })
-            setProduct(product)
-            return product
-        }
+    const onSubmitForm = async (product: formAdd) => {
+        console.log(product);
+        await addProduct(product);
+        // console.log(data);
+        navigate("/admin")
 
     }
-    const fetchAllCategory = async () => {
+    // category
+    const fetchCategory = async () => {
         const { data } = await getCategory()
         setCategory(data)
     }
     useEffect(() => {
-        fetchAllCategory()
-        if (id) {
-            fetchOneAdmin(id)
-        }
+        fetchCategory()
     }, [])
     return <form onSubmit={handleSubmit(onSubmitForm)} className="grow p-5 bg-[#F1F3F4] flex">
         <div className="w-[40%]">
@@ -63,7 +39,11 @@ const AdminUpdate = () => {
                 className="group flex flex-col justify-between rounded-lg bg-transparent p-4 shadow-md transition-shadow hover:shadow-lg sm:p-6 lg:p-8 w-[400px] mt-10 min-h-[350px]"
             >
                 <div className="flex flex-col justify-center items-center">
-                    <img src={product.images} className="w-[250px] object-cover" alt="" />
+                    <img src="" className="w-[250px] object-cover" alt="" />
+                    <input type="file" {...register("images")} />
+                    <p className="text-red-600">
+                        {errors.images && errors.images.message}
+                    </p>
                     {/* <input type="file" {...register("images", { required: true })} /> */}
                     <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-14 text-[#00B0D7] mt-8 cursor-pointer" viewBox="0 0 512 512"><path d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z" fill="none" stroke="currentColor" strokeMiterlimit="10" strokeWidth="32" /><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M256 176v160M336 256H176" /></svg>
                     <h1 className="text-2xl text-[#5F5E61] font-semibold text-center mt-3">Sửa ảnh</h1>
@@ -109,6 +89,7 @@ const AdminUpdate = () => {
                                             placeholder="Giá gốc"
                                             type="number"
                                             {...register("original_price", { required: true })}
+                                            min={0}
                                         />
                                         <p className="text-red-600">
                                             {errors.original_price && errors.original_price.message}
@@ -122,6 +103,7 @@ const AdminUpdate = () => {
                                             placeholder="Giá khuyến mãi"
                                             {...register("price", { required: true })}
                                             type="number"
+                                            min={0}
                                         />
                                         <p className="text-red-600">
                                             {errors.price && errors.price.message}
@@ -130,17 +112,15 @@ const AdminUpdate = () => {
                                 </div>
                                 <select className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
                                     {...register("categoryId")}
-                                    value={product?.categoryId?._id}
+                                    defaultValue={category?.length > 0 ? category[0]?._id : ""}
                                 >
-                                    {category && category.map((cate, index) =>
-                                        <option key={cate._id} value={cate?._id}>
-                                            {cate.name}
+                                    {category && category.map((item, index) =>
+                                        <option value={item._id} key={index}>
+                                            {item.name}
                                         </option>
                                     )}
                                 </select>
-                                <p className="text-red-600">
-                                    {errors.categoryId && errors.categoryId.message}
-                                </p>
+                                {errors.categoryId && errors.categoryId.message}
                                 <div>
                                     <label className="sr-only">Đặc điểm nổi bật</label>
 
@@ -170,7 +150,7 @@ const AdminUpdate = () => {
                                     <button
                                         className="inline-block w-full rounded-lg bg-[#00B0D7] px-5 py-3 font-medium text-white sm:w-auto"
                                     >
-                                        Cập nhật
+                                        Thêm sản phẩm
                                     </button>
                                 </div>
                             </div>
@@ -182,4 +162,4 @@ const AdminUpdate = () => {
     </form >
 }
 
-export default AdminUpdate
+export default AdminAdd

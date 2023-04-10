@@ -73,6 +73,7 @@ export type formAdd = Yup.InferType<typeof addProductSchema>
 export const updateSchema = Yup.object({
     name: Yup.string().required("Trường dữ liệu bắt buộc"),
     price: Yup.number().min(0).required("Trường dữ liệu bắt buộc"),
+    images: Yup.string(),
     original_price: Yup.number().min(0).required("Trường dữ liệu bắt buộc"),
     categoryId: Yup.string().required("Trường dữ liệu bắt buộc"),
     description: Yup.string(),

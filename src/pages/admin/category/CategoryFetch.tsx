@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { ICategory, IProduct, IUser } from "../models"
-import { deleteProduct, getAll } from "../api/Product"
+import { ICategory, IProduct, IUser } from "../../../models"
+import { deleteProduct, getAll } from "../../../api/Product"
 import { Link, useNavigate } from "react-router-dom"
-import { deleteCategory, getCategory, getOneCategory } from "../api/Category"
+import { deleteCategory, getCategory, getOneCategory } from "../../../api/Category"
 const CategoryFetch = () => {
     const [category, setCategory] = useState<ICategory[]>([])
     const navigate = useNavigate();
@@ -16,9 +16,10 @@ const CategoryFetch = () => {
         if (isConfirm) {
             await deleteCategory(id)
             alert('Xoa thanh cong');
-            // navigate(-1)
+            location.href = "/admin/category"
         }
     }
+
     useEffect(() => {
         fetchCategory()
     }, [])

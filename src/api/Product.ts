@@ -15,21 +15,21 @@ export const getOne = (id: string) => {
 export const addProduct = (product: formAdd) => {
     return instence.post(`/products`, product, {
         headers: {
-            Authorization: `Bearer ${getData && getData.accessToken.toString()}`
+            Authorization: `Bearer ${getData && getData.accessToken}`
         }
     })
 }
 export const update = (id: string, product: formUpdate) => {
     return instence.put(`/products/${id}`, product, {
         headers: {
-            Authorization: `Bearer ${getData && getData.accessToken.toString()}`
+            Authorization: `Bearer ${getData && getData.accessToken}`
         }
     })
 }
 export const deleteProduct = (id: string) => {
     return instence.delete(`/products/${id}`, {
         headers: {
-            Authorization: `Bearer ${getData && getData.accessToken.toString()}`
+            Authorization: `Bearer ${getData && getData.accessToken}`
         }
     })
 }
