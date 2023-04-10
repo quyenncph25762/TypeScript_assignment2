@@ -10,6 +10,26 @@ import { date } from "yup"
 const AdminUpdate = () => {
     const [product, setProduct] = useState<IProduct>({} as IProduct)
     const [category, setCategory] = useState<ICategory[]>([])
+    const fetchOneAdmin = async (id: string) => {
+        try {
+            if (id) {
+                const { data: { product } } = await getOne(id)
+                setProduct(product)
+                return product
+            }
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+    const fetchAllCategory = async () => {
+        try {
+            const { data } = await getCategory()
+            setCategory(data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const { id } = useParams()
     const navigate = useNavigate();
     const {
@@ -36,17 +56,7 @@ const AdminUpdate = () => {
         }
     }
 
-    const fetchOneAdmin = async (id: string) => {
-        if (id) {
-            const { data: { product } } = await getOne(id)
-            setProduct(product)
-            return product
-        }
-    }
-    const fetchAllCategory = async () => {
-        const { data } = await getCategory()
-        setCategory(data)
-    }
+
     useEffect(() => {
         fetchAllCategory()
         if (id) {
@@ -127,7 +137,7 @@ const AdminUpdate = () => {
                                 </div>
                                 <select className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
                                     {...register("categoryId")}
-                                    value={product?.categoryId?._id}
+                                    defaultValue={product?.categoryId?._id}
                                 >
                                     {category && category.map((cate, index) =>
                                         <option key={cate._id} value={cate?._id}>

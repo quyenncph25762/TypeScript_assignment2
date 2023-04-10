@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react"
 import { ICategory, IProduct, formAdd, formSignup } from "../../models"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom"
 import { getOne } from "../../api/Product"
 import { getOneCategory } from "../../api/Category"
 
 const ProductDetail = () => {
     const [product, setProduct] = useState<IProduct>({} as IProduct)
     const [categoryId, setCategoryId] = useState<ICategory>({} as ICategory)
-    console.log(product);
-    console.log(categoryId.products);
+    console.log(product?.categoryId);
+    // console.log(categoryId.products);
     const { id } = useParams();
     const fetchOneProduct = async () => {
         if (id) {
@@ -86,30 +86,32 @@ const ProductDetail = () => {
             </div>
             <div className="mt-3 text-sm"><span>{product.description}</span></div>
             <h1 className="text-[#000] text-xl pt-5">Sản phẩm liên quan</h1>
-
-            <div className="grid grid-cols-5 gap-4 mt-4">
+            <Outlet />
+            <div className="grid grid-cols-5 gap-4 mt-4 ">
                 {categoryId?.products?.map((productCate, index) =>
-                    <div className="mb-14" key={index}>
+                    <div className="mb-14 border-1 rounded-lg overflow-hidden w-[200px]" key={index}>
                         <Link to={`/product/${productCate._id}`} className="block">
                             <img
                                 alt="Art"
                                 src={productCate.images}
-                                className="w-full object-cover"
+                                className="w-full object-cover hover:scale-110 ease-linear transition-all h-[150px]"
                             />
-                            <h3 className="mt-4 text-sm text-gray-900 font-semibold">
-                                {productCate.name}
-                            </h3>
-                            <div className="mt-2 text-[12px] flex">
-                                <p className="text-red-600 font-bold">{productCate.original_price}₫<span className="text-gray-700 opacity-50 ml-2">{productCate.price} ₫</span></p>
-                            </div>
-                            <div className="mt-2 text-[12px] flex">
-                                <div className="flex">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-4" viewBox="0 0 512 512"><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="32" /><path d="M256 48v316L118 464l54-160-140-96h172l52-160z" /></svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-4" viewBox="0 0 512 512"><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="32" /><path d="M256 48v316L118 464l54-160-140-96h172l52-160z" /></svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-4" viewBox="0 0 512 512"><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="32" /><path d="M256 48v316L118 464l54-160-140-96h172l52-160z" /></svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-4" viewBox="0 0 512 512"><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="32" /><path d="M256 48v316L118 464l54-160-140-96h172l52-160z" /></svg>
+                            <div className="px-2 py-1">
+                                <h3 className="mt-4 text-sm text-gray-900 font-semibold">
+                                    {productCate.name}
+                                </h3>
+                                <div className="mt-2 text-[12px] flex">
+                                    <p className="text-red-600 font-bold">{productCate.original_price}₫<span className="text-gray-700 opacity-50 ml-2">{productCate.price} ₫</span></p>
                                 </div>
-                                <span className="text-gray-700 opacity-50 ml-2">10 đánh giá</span>
+                                <div className="mt-2 text-[12px] flex">
+                                    <div className="flex">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-4" viewBox="0 0 512 512"><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="32" /><path d="M256 48v316L118 464l54-160-140-96h172l52-160z" /></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-4" viewBox="0 0 512 512"><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="32" /><path d="M256 48v316L118 464l54-160-140-96h172l52-160z" /></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-4" viewBox="0 0 512 512"><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="32" /><path d="M256 48v316L118 464l54-160-140-96h172l52-160z" /></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="ionicon w-4" viewBox="0 0 512 512"><path d="M480 208H308L256 48l-52 160H32l140 96-54 160 138-100 138 100-54-160z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="32" /><path d="M256 48v316L118 464l54-160-140-96h172l52-160z" /></svg>
+                                    </div>
+                                    <span className="text-gray-700 opacity-50 ml-2">10 đánh giá</span>
+                                </div>
                             </div>
                         </Link>
                     </div >

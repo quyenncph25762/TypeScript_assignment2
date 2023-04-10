@@ -8,15 +8,25 @@ const CategoryFetch = () => {
     const navigate = useNavigate();
 
     const fetchCategory = async () => {
-        const { data } = await getCategory();
-        setCategory(data)
+        try {
+            const { data } = await getCategory();
+            setCategory(data)
+        } catch (error) {
+            console.log(error);
+
+        }
     }
     const removeCategory = async (id: string) => {
-        const isConfirm = confirm('Are you sure you want to remove');
-        if (isConfirm) {
-            await deleteCategory(id)
-            alert('Xoa thanh cong');
-            location.href = "/admin/category"
+        try {
+            const isConfirm = confirm('Are you sure you want to remove');
+            if (isConfirm) {
+                await deleteCategory(id)
+                alert('Xoa thanh cong');
+                location.href = "/admin/category"
+            }
+        } catch (error) {
+            console.log(error);
+
         }
     }
 

@@ -9,6 +9,17 @@ const CategoryUpdate = ({ }) => {
     const [category, setCategory] = useState<ICategory>({} as ICategory)
     const { id } = useParams()
     const navigate = useNavigate()
+    const fetchOneCategory = async (id: string) => {
+        try {
+            if (id) {
+                const { data: { category } } = await getOneCategory(id)
+                setCategory(category)
+                return category
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const {
         register,
         handleSubmit,
@@ -22,7 +33,6 @@ const CategoryUpdate = ({ }) => {
         }
     })
     const onSubmitForm = async (category: ICategory) => {
-
         try {
             if (id) {
                 await updateCategory(id, category)
@@ -34,13 +44,7 @@ const CategoryUpdate = ({ }) => {
         navigate("/admin/category")
 
     }
-    const fetchOneCategory = async (id: string) => {
-        if (id) {
-            const { data: { category } } = await getOneCategory(id)
-            setCategory(category)
-            return category
-        }
-    }
+
     useEffect(() => {
     }, [])
     return <form onSubmit={handleSubmit(onSubmitForm)} className="grow p-5 bg-[#F1F3F4] flex">

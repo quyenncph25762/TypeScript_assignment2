@@ -62,9 +62,8 @@ export type formSigin = Yup.InferType<typeof signinSchema>
 export const addProductSchema = Yup.object({
     name: Yup.string().required("Trường dữ liệu bắt buộc"),
     price: Yup.number().min(0).required("Trường dữ liệu bắt buộc"),
-    images: Yup.string().required("Trường dữ liệu bắt buộc"),
+    images: Yup.string(),
     original_price: Yup.number().min(0).required("Trường dữ liệu bắt buộc"),
-    products: Yup.array(),
     categoryId: Yup.string().required("Trường dữ liệu bắt buộc"),
     description: Yup.string(),
     description_small: Yup.string().min(10, "Mô tả ngắn phải có 10 kí tự").max(200).required(),

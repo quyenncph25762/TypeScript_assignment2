@@ -16,9 +16,13 @@ const CategoryAdd = () => {
         resolver: yupResolver(addCategorySchema)
     })
     const onSubmitForm = async (category: ICategory) => {
-        await addCategory(category);
-        navigate("/admin/category")
+        try {
+            await addCategory(category);
+            navigate("/admin/category")
+        } catch (error) {
+            console.log(error);
 
+        }
     }
     useEffect(() => {
     }, [])

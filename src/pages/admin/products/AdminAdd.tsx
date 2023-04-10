@@ -8,7 +8,14 @@ import { getCategory } from "../../../api/Category"
 import axios from "axios"
 const AdminAdd = () => {
     const [category, setCategory] = useState<ICategory[]>([])
-    console.log(category);
+    const fetchCategory = async () => {
+        try {
+            const { data } = await getCategory()
+            setCategory(data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const navigate = useNavigate()
     const {
         register,
@@ -25,10 +32,7 @@ const AdminAdd = () => {
 
     }
     // category
-    const fetchCategory = async () => {
-        const { data } = await getCategory()
-        setCategory(data)
-    }
+
     useEffect(() => {
         fetchCategory()
     }, [])
@@ -112,7 +116,7 @@ const AdminAdd = () => {
                                 </div>
                                 <select className="w-full rounded-lg border-gray-200 border-1 p-3 text-sm bg-transparent"
                                     {...register("categoryId")}
-                                    defaultValue={category?.length > 0 ? category[0]?._id : ""}
+                                    defaultValue={category.length > 0 ? category[0]?._id : ""}
                                 >
                                     {category && category.map((item, index) =>
                                         <option value={item._id} key={index}>
