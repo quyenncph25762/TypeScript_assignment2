@@ -22,7 +22,7 @@ const CategoryFetch = () => {
             if (isConfirm) {
                 await deleteCategory(id)
                 alert('Xoa thanh cong');
-                location.href = "/admin/category"
+                setCategory(category.filter(category => category._id !== id))
             }
         } catch (error) {
             console.log(error);

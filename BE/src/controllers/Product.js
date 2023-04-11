@@ -83,12 +83,7 @@ export const update = async (req, res) => {
 }
 export const remove = async (req, res) => {
     try {
-        const product = await Product.findByIdAndDelete(req.params.id);
-        await Category.findByIdAndDelete(product.categoryId, {
-            $addToSet: {
-                products: product._id
-            }
-        })
+        await Product.findByIdAndDelete(req.params.id);
         return res.status(201).json({
             message: "remove success product",
         })

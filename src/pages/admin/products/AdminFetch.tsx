@@ -23,7 +23,7 @@ const AdminFetch = () => {
         if (isConfirm) {
             await deleteProduct(id)
             alert('Xoa thanh cong');
-            location.href = "/admin"
+            setProducts(products.filter((product) => product._id !== id))
         }
     }
     useEffect(() => {
